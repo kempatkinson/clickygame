@@ -18,10 +18,24 @@ class App extends Component {
     friends
   };
 
+  findFriendandIncrement = (id, a) => {
+    for (let i = a.length - 1; i > 0; i--) {
+      if (a[i].id === id) {
+        a[i].count++;
+        
+        
+      }
+
+    }
+    return a;
+  }
+
   removeFriend = id => {
     // Filter this.state.friends for friends with an id not equal to the id being removed
+
     
     const friends = shuffle(this.state.friends);
+    this.findFriendandIncrement(id, friends)
     console.log(friends)
     // Set this.state.friends equal to the new friends array
     this.setState({ friends });
