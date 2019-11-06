@@ -6,8 +6,8 @@ import friends from "./friends.json";
 
 function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
 }
@@ -19,23 +19,48 @@ class App extends Component {
   };
 
   findFriendandIncrement = (id, a) => {
-    for (let i = a.length - 1; i > 0; i--) {
+    for (let i = 0; i <a.length; i++) {
       if (a[i].id === id) {
-        a[i].count++;
-        
-        
+        if (a[i].count === 0) {
+          a[i].count++;
+        } else if (a[i].count === 1) {
+          alert("you clicked the image twice, try again")
+          this.resetGame(a)
+
+        }
+
       }
 
     }
     return a;
   }
 
+  resetGame = (a) => {
+    for (let i = 0; i <a.length; i++)  {
+      a[i].count = 0
+    }
+    return a;
+  }
+
+  checkForWin = (a) => {
+    let howManyOnes = 0;
+    for (let i = 0; i <a.length; i++) {
+      if (a[i].count === 1) {
+        howManyOnes++;
+      }
+    }
+    if (howManyOnes === a.length) {
+      alert("you win! try again")
+      this.resetGame(a)
+
+    }
+  }
+
   removeFriend = id => {
     // Filter this.state.friends for friends with an id not equal to the id being removed
-
-    
     const friends = shuffle(this.state.friends);
     this.findFriendandIncrement(id, friends)
+    this.checkForWin(friends)
     console.log(friends)
     // Set this.state.friends equal to the new friends array
     this.setState({ friends });
